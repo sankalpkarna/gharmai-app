@@ -45,11 +45,11 @@
                         @endif
                     </div>
                     <div class="col-sm-6">
-                        <label for="exampleRepeatPassword" class="form-label">Repeat Password</label>
+                        <label for="exampleConfirmPassword" class="form-label">Confirm Password</label>
                         <input type="password" class="form-control form-control-user"
-                            id="RepeatPassword" placeholder="Repeat Password" name="rpassword">
-                        @if ($errors->has('rpassword'))
-                        <span class="text-danger">{{ $errors->first('rpassword') }}</span>
+                            id="ConfirmPassword" placeholder="Confirm Password" name="confirm_password">
+                        @if ($errors->has('confirm_password'))
+                        <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
                         @endif
                     </div>                                    
                 </div>
