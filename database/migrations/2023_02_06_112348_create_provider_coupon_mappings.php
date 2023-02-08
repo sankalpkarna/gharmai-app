@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('providers', function (Blueprint $table) {
+        Schema::create('provider_coupon_mappings', function (Blueprint $table) {
             $table->id();
-            $table->integer('cat_id');
-            $table->string('username');
-            $table->string('password');
-            $table->string('name');
-            $table->string('dob');
-            $table->string('email');
-            $table->string('mobno');
+            $table->bigInteger('provider_id')->nullable();
+            $table->string('code')->nullable();
+            $table->double('discount')->nullable();
+            $table->string('discount_type')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('providers');
+        Schema::dropIfExists('provider_coupon_mappings');
     }
 };

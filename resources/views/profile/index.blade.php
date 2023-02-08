@@ -21,8 +21,10 @@
             <nav class="nav nav-borders">
                 <a class="nav-link active ms-0" href="{{route('profile')}}">Profile</a>
                 <a class="nav-link" href="{{route('profile.security')}}">Security</a>
+                <!-- 
                 <a class="nav-link" href="account-billing.html">Billing</a>
-                <a class="nav-link" href="account-notifications.html">Notifications</a>
+                <a class="nav-link" href="account-notifications.html">Notifications</a> 
+                -->
             </nav>
             <hr class="mt-0 mb-4" />
             <div class="row">

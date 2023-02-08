@@ -37,10 +37,8 @@
                 <div id="collapseServices" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Services Components:</h6>
-                        <a class="collapse-item" href="#">Add Service Category</a>
-                        <a class="collapse-item" href="#">Service Category List</a>
-                        <a class="collapse-item" href="#">Add Service SubCategory</a>
-                        <a class="collapse-item" href="#">Service SubCategory List</a>
+                        <a class="collapse-item" href="{{route('service')}}">Add Service </a>
+                        <a class="collapse-item" href="{{route('service.create')}}">Service List</a>
                     </div>
                 </div>
             </li>
@@ -94,47 +92,30 @@
                 </div>
             </li>
 
-            @if(Auth::User()->role=='admin')
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+            @role('superadmin')
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Settings
             </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - User Management Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>System</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUserManagement"
+                    aria-expanded="true" aria-controls="collapseUserManagement">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>User Management</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseUserManagement" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/login.html')}}">Login</a>
-                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/register.html')}}">Register</a>
-                        <a class="collapse-item" href="admin/sbadmin/forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/404.html')}}">404 Page</a>
-                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/blank.html')}}">Blank Page</a>
+                        <h6 class="collapse-header">User Management:</h6>
+                        <a class="collapse-item" href="{{route('user')}}">Users</a>
+                        <a class="collapse-item" href="{{route('role')}}">Roles</a>
+                        <a class="collapse-item" href="{{route('permission')}}">Permissions</a>
                     </div>
                 </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{URL::to('admin/sbadmin/charts.html')}}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Analytics</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('user')}}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>User Management</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -150,17 +131,36 @@
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-color.html')}}">Colors</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-border.html')}}">Borders</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-animation.html')}}">Animations</a>
-                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-other.html')}}">Other</a>
+                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-other.html')}}">Other Utilities</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/buttons.html')}}">Buttons</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/cards.html')}}">Cards</a> 
                     </div>
                 </div>
             </li>
-            @endif
+
+
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{URL::to('admin/sbadmin/charts.html')}}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Analytics</span></a>
+            </li>
+
+
+            <!-- Nav Item - Settings Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>Settings</span>
+                </a>
+              
+            </li>           
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-
+            @endrole
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

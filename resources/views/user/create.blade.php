@@ -62,10 +62,9 @@
 								<label for="exampleInputRole"  class="form-label">Role</label>
 								<select class="form-select form-control" aria-label="Default select example" name="role">
 									<option selected="" disabled="">Select a role:</option>
-									<option value="admin" selected="">Admin</option>
-									<option value="provider">Provider</option>
-									<option value="customer">Customer</option>
-									<option value="user">User</option>
+									@foreach ($roles as $role)
+                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                	@endforeach
 								</select>
 							</div>    
 							<div align="center">

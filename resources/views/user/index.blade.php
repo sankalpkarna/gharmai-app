@@ -22,7 +22,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <a href="{{route('user.add')}}" class="btn btn-xs btn-primary float-right add">Add User</a>
+                <a href="{{route('user.create')}}" class="btn btn-xs btn-primary float-right add">Add User</a>
             </br></br>
             <table class="table table-bordered" id="usersdataTable" width="100%" cellspacing="0">
                 <thead>
@@ -45,6 +45,7 @@
                 </tfoot>
                 <tbody>
 
+
                 </tbody>
             </table>
         </div>
@@ -61,7 +62,7 @@
 <script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
 <!-- Page level custom scripts -->
-<!--     <script src="{{asset('admin/js/demo/datatables-demo.js')}}"></script> -->
+<script src="{{asset('admin/js/demo/datatables-demo.js')}}"></script>
 <!-- // Call the dataTables jQuery plugin -->
 <script>
     $(document).ready(function() {
@@ -72,7 +73,7 @@
          columns: [
             {data: 'name',name: 'name'},
             {data: 'email',name: 'email'},
-            {data: 'role',name: 'role'},
+            {data: 'roles.[].name',name: 'roles'},
             {data: 'created_at',name: 'created_at'},
             {data: 'action',name: 'action',orderable: true,searchable: true}
             ]

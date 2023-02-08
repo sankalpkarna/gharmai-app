@@ -39,13 +39,18 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputRole"  class="form-label">Role</label>
+                                <label for="InputRole"  class="form-label">Role</label>
                                 <select class="form-select form-control" aria-label="Default select example" name="role">
                                     <option disabled="">Select a role:</option>
-                                    <option value="admin" {{($user->role == 'admin') ? 'selected' : ''}} >Admin</option>
-                                    <option value="provider" {{($user->role == 'provider') ? 'selected' : ''}} >Provider</option>
-                                    <option value="customer" {{($user->role == 'customer') ? 'selected' : ''}} >Customer</option>
-                                    <option value="user" {{($user->role == 'user') ? 'selected' : ''}} >User</option>
+                                    @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}"
+                                        @foreach ($user->roles as $item)
+                                            {{ ($item->id === $role->id) ? 'selected' : '' }}
+                                        @endforeach
+                                    >
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
                                 </select>
                             </div>    
                             <div align="center">
