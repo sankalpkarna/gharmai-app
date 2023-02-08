@@ -39,6 +39,14 @@
                                 @endif
                             </div>
                             <div class="form-group">
+                                <label for="InputMobileNumber" class="form-label">Mobile Number</label>
+                                <input type="text" class="form-control form-control-user" id="InputMobileNumber"
+                                placeholder="Enter your Mobile Number" name="mobile_number" value="{{$user->mobile_number}}">
+                                @if ($errors->has('mobile_number'))
+                                <span class="text-danger">{{ $errors->first('mobile_number')}}</span>
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <label for="InputRole"  class="form-label">Role</label>
                                 <select class="form-select form-control" aria-label="Default select example" name="role">
                                     <option disabled="">Select a role:</option>

@@ -48,6 +48,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:100',
             'confirm_password' =>'required|same:password',
+            'mobile_number' =>'required',
             'role'=>'required',
         ]);
         $data=$req->all();
@@ -55,6 +56,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'mobile_number' =>$data['mobile_number']
         ])->assignRole($data['role']);
 
         $token = Str::random(64);

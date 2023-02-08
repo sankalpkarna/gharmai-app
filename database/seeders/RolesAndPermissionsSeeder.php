@@ -22,8 +22,8 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
     
-       //Admin Seeder
-        $user = User::create([
+       //SuperAdmin Seeder
+        $superadmin = User::create([
             'name' => 'Sankalp Karna', 
             'email' => 'karn.sankalp@gmail.com',
             'password' => bcrypt('salman'),
@@ -31,14 +31,46 @@ class RolesAndPermissionsSeeder extends Seeder
             'is_email_verified' =>'1'
         ]);
 
+        //Admin Seeder
+        $admin = User::create([
+            'name' => 'Admin', 
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('adminadmin'),
+            'mobile_number' => '9802100617',
+            'is_email_verified' =>'1'
+        ]);
+
+        //Provider Seeder
+
+        $provider = User::create([
+            'name' => 'Provider', 
+            'email' => 'provider@gmail.com',
+            'password' => bcrypt('provider'),
+            'mobile_number' => '9802100617',
+            'is_email_verified' =>'1'
+        ]);
+
+        //Customer Seeder
+
+        $customer = User::create([
+            'name' => 'Customer', 
+            'email' => 'customer@gmail.com',
+            'password' => bcrypt('customer'),
+            'mobile_number' => '9802100617',
+            'is_email_verified' =>'1'
+        ]);
+
         // create roles and assign created permissions
 
-
-        $role  = Role::create(['name' => 'admin']);
-        $role1 = Role::create(['name' => 'provider']);
-        $role2 = Role::create(['name' => 'customer']);
-        $role3 = Role::create(['name' => 'superadmin']);
-
+        $superadminrole = Role::create(['name' => 'superadmin']);
+        $adminrole  = Role::create(['name' => 'admin']);
+        $providerrole = Role::create(['name' => 'provider']);
+        $customerrole = Role::create(['name' => 'customer']);
+        
+        $superadmin->assignRole([$superadminrole->id]);
+        $admin->assignRole([$adminrole->id]);
+        $provider->assignRole([$providerrole->id]);
+        $customer->assignRole([$customerrole->id]);
 
         //Permissions
         $permissions = [
@@ -58,17 +90,20 @@ class RolesAndPermissionsSeeder extends Seeder
             'user-create',
             'user-edit',
             'user-destroy'
-            ,
+            
         ];
        
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
 
+        //Assign permissions from the admin portal or from below code.
+        /*
         $role_permissions = Permission::pluck('id','id')->all();
      
         $role->givePermissionTo($role_permissions);
+
+        */
        
-        $user->assignRole([$role3->id]);
     }
 }

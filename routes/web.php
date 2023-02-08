@@ -10,6 +10,19 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\WalletController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\TaxController;
+use App\Http\Controllers\PaymentGatewayController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SettingController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +135,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/booking/update/{id}',[BookingController::class,'update'])->name('booking.update');
     Route::get('/booking/destroy/{id}',[BookingController::class,'destroy'])->name('booking.destroy');
 
+    //Calling view from the Payment Controller
+    Route::get('/payment',[PaymentController::class,'index'])->name('payment');
+    Route::get('/payment/create',[PaymentController::class,'create'])->name('payment.create');
+    Route::post('/payment/store',[PaymentController::class,'store'])->name('payment.store');
+    Route::get('/payment/edit/{id}',[PaymentController::class, 'edit'])->name('payment.edit');
+    Route::post('/payment/update/{id}',[PaymentController::class,'update'])->name('payment.update');
+    Route::get('/payment/destroy/{id}',[PaymentController::class,'destroy'])->name('payment.destroy');
+
 
     //Calling view from the Coupon Controller
     Route::get('/coupon',[CouponController::class,'index'])->name('coupon');
@@ -132,14 +153,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/coupon/destroy/{id}',[CouponController::class,'destroy'])->name('service.destroy');
 
 
-    //Calling view from the Payment Controller
-    Route::get('/payment',[PaymentController::class,'index'])->name('payment');
-    Route::get('/payment/create',[PaymentController::class,'create'])->name('payment.create');
-    Route::post('/payment/store',[PaymentController::class,'store'])->name('payment.store');
-    Route::get('/payment/edit/{id}',[PaymentController::class, 'edit'])->name('payment.edit');
-    Route::post('/payment/update/{id}',[PaymentController::class,'update'])->name('payment.update');
-    Route::get('/payment/destroy/{id}',[PaymentController::class,'destroy'])->name('payment.destroy');
-
+   
     //Calling view from the Document Controller
     Route::get('/document',[DocumentController::class,'index'])->name('document');
     Route::get('/document/create',[DocumentController::class,'create'])->name('document.create');
@@ -163,5 +177,32 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/tax/edit/{id}',[TaxController::class, 'edit'])->name('tax.edit');
     Route::post('/tax/update/{id}',[TaxController::class,'update'])->name('tax.update');
     Route::get('/tax/destroy/{id}',[TaxController::class,'destroy'])->name('tax.destroy');
+
+    //Calling view from the PaymentGateway Controller
+    Route::get('/PaymentGatewayController',[PaymentGatewayController::class,'index'])->name('paymentgateway');
+    Route::get('/paymentgateway/create',[PaymentGatewayController::class,'create'])->name('paymentgateway.create');
+    Route::post('/paymentgateway/store',[PaymentGatewayController::class,'store'])->name('paymentgateway.store');
+    Route::get('/paymentgateway/edit/{id}',[PaymentGatewayController::class, 'edit'])->name('paymentgateway.edit');
+    Route::post('/paymentgateway/update/{id}',[PaymentGatewayController::class,'update'])->name('paymentgateway.update');
+    Route::get('/paymentgateway/destroy/{id}',[PaymentGatewayController::class,'destroy'])->name('paymentgateway.destroy');
+
+
+    //Calling view from the Notification Controller
+    Route::get('/notification',[NotificationController::class,'index'])->name('notification');
+    Route::get('/notification/create',[NotificationController::class,'create'])->name('notification.create');
+    Route::post('/notification/store',[NotificationController::class,'store'])->name('notification.store');
+    Route::get('/notification/edit/{id}',[NotificationController::class, 'edit'])->name('notification.edit');
+    Route::post('/notification/update/{id}',[NotificationController::class,'update'])->name('notification.update');
+    Route::get('/notification/destroy/{id}',[NotificationController::class,'destroy'])->name('notification.destroy');
+
+
+    //Calling view from the Setting Controller
+    Route::get('/setting',[SettingController::class,'index'])->name('setting');
+    Route::get('/setting/create',[SettingController::class,'create'])->name('setting.create');
+    Route::post('/setting/store',[SettingController::class,'store'])->name('setting.store');
+    Route::get('/setting/edit/{id}',[SettingController::class, 'edit'])->name('setting.edit');
+    Route::post('/setting/update/{id}',[SettingController::class,'update'])->name('setting.update');
+    Route::get('/setting/destroy/{id}',[SettingController::class,'destroy'])->name('setting.destroy');
+
 
 });    

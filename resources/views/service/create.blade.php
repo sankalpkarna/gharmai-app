@@ -1,3 +1,4 @@
+<x-header title="Create Service - Gharmai Admin"/>
 @extends('layouts.app')
 
 @section('content')
@@ -20,14 +21,24 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-9">
 					<div class="p-5">
-						<form action="{{route('service.store')}}" method="POST" enctype="multipart/form-data">
+						<form class="user" action="{{route('service.store')}}" method="POST" enctype="multipart/form-data">
 							@csrf
 							<div class="form-group">
-								<label for="InputName" class="form-label">Name</label>
+								<label for="InputName" class="form-label">Name *</label>
 								<input type="text" class="form-control form-control-user" id="inputname"
 								placeholder="Enter Service Name" name="name" value="{{old('name')}}">
 								@if ($errors->has('name'))
 								<span class="text-danger">{{ $errors->first('name')}}</span>
+								@endif
+							</div>
+
+							<div class="form-group">
+								<label for="InputDescription" class="form-label">Description *</label>
+								<textarea class="form-control form-control-user" id="InputDescription"
+								placeholder="Enter Description" name="description" value="{{old('description')}}">
+								</textarea>
+								@if ($errors->has('description'))
+								<span class="text-danger">{{ $errors->first('description')}}</span>
 								@endif
 							</div>
 								   

@@ -18,7 +18,7 @@
             <form class="user" action="{{route('register.user')}}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="form-group">
-                    <label for="InputName" class="form-label">Name</label>
+                    <label for="InputName" class="form-label">Name *</label>
                     <input type="text" class="form-control form-control-user" id="inputname"
                         placeholder="Enter your Name" name="name" value="{{old('name')}}">
                     @if ($errors->has('name'))
@@ -26,7 +26,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="InputEmail" class="form-label">E-mail</label>
+                    <label for="InputEmail" class="form-label">E-mail *</label>
                     <input type="email" class="form-control form-control-user" id="inputemail"
                         placeholder="Email Address" name="email" value="{{old('email')}}">
                     @if ($errors->has('email'))
@@ -36,7 +36,7 @@
                 
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <label for="exampleInputPassword" class="form-label">Password</label>
+                        <label for="exampleInputPassword" class="form-label">Password *</label>
                         <input type="password" class="form-control form-control-user"
                             id="InputPassword" placeholder="Password" name="password">
 
@@ -45,7 +45,7 @@
                         @endif
                     </div>
                     <div class="col-sm-6">
-                        <label for="exampleConfirmPassword" class="form-label">Confirm Password</label>
+                        <label for="exampleConfirmPassword" class="form-label">Confirm Password *</label>
                         <input type="password" class="form-control form-control-user"
                             id="ConfirmPassword" placeholder="Confirm Password" name="confirm_password">
                         @if ($errors->has('confirm_password'))
@@ -54,7 +54,15 @@
                     </div>                                    
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputRole"  class="form-label">Role</label>
+                        <label for="InputMobileNumber" class="form-label">Mobile Number *</label>
+                        <input type="text" class="form-control form-control-user" id="InputMobileNumber"
+                        placeholder="Enter your Mobile Number" name="mobile_number" value="{{old('mobile_number')}}">
+                        @if ($errors->has('mobile_number'))
+                        <span class="text-danger">{{ $errors->first('mobile_number')}}</span>
+                        @endif
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputRole"  class="form-label">Role *</label>
                     <select class="form-select form-control" aria-label="Default select example" name="role">
                         <option selected="" disabled="">Select a role:</option>
                         @foreach ($roles as $role)

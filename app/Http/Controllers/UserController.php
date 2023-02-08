@@ -57,6 +57,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:100',
             'confirm_password' =>'required|same:password',
+            'mobile_number' =>'required',
             'role'=>'required',
 
         ]);
@@ -64,6 +65,7 @@ class UserController extends Controller
             'name' => $req->name,
             'email' => $req->email,
             'password' => Hash::make($req->password),
+            'mobile_number' => $req->mobile_number
         ]);
         $user->assignRole($req->role);
         return redirect("user")->with('success','User Created Successfully!');
@@ -92,11 +94,13 @@ class UserController extends Controller
     public function update(Request $req){
         $req->validate([
             'name' => 'required|min:2|max:100',
+            'mobile_number' =>'required',
             'role'=>'required',            
         ]);
         $user=User::findOrFail($req->id);
         $user->update([
             'name' => $req->name,
+            'mobile_number' =>$req->mobile_number
         ]);
         $user->syncRoles($req->role);
         return redirect("user")->with('success','User Update Successful!');        

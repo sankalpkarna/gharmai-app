@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -57,6 +58,14 @@
 									<span class="text-danger">{{ $errors->first('confirm_password') }}</span>
 									@endif
 								</div>                                    
+							</div>
+							<div class="form-group">
+								<label for="InputMobileNumber" class="form-label">Mobile Number</label>
+								<input type="text" class="form-control form-control-user" id="InputMobileNumber"
+								placeholder="Enter your Mobile Number" name="mobile_number" value="{{old('mobile_number')}}">
+								@if ($errors->has('mobile_number'))
+								<span class="text-danger">{{ $errors->first('mobile_number')}}</span>
+								@endif
 							</div>
 							<div class="form-group">
 								<label for="exampleInputRole"  class="form-label">Role</label>

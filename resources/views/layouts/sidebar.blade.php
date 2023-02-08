@@ -24,8 +24,10 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Backend
+                Main
             </div>
+
+            @role('admin|superadmin')
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -37,8 +39,8 @@
                 <div id="collapseServices" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Services Components:</h6>
-                        <a class="collapse-item" href="{{route('service')}}">Add Service </a>
-                        <a class="collapse-item" href="{{route('service.create')}}">Service List</a>
+                        <a class="collapse-item" href="{{route('service.create')}}">Add Service </a>
+                        <a class="collapse-item" href="{{route('service')}}">Service List</a>
                     </div>
                 </div>
             </li>
@@ -53,8 +55,8 @@
                 <div id="collapseProviders" class="collapse" aria-labelledby="headingProviders" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Providers Utilities:</h6>
-                        <a class="collapse-item" href="#">Add Provider</a>
-                        <a class="collapse-item" href="#">Provider List</a>
+                        <a class="collapse-item" href="{{route('provider.create')}}">Add Provider</a>
+                        <a class="collapse-item" href="{{route('provider')}}">Provider List</a>
                     </div>
                 </div>
             </li>
@@ -69,11 +71,13 @@
                 <div id="collapseCustomers" class="collapse" aria-labelledby="headingCustomers" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Customers Utilities:</h6>
-                        <a class="collapse-item" href="#">Add Customer</a>
-                        <a class="collapse-item" href="#">Customer List</a>
+                        <a class="collapse-item" href="{{route('customer.create')}}">Add Customer</a>
+                        <a class="collapse-item" href="{{route('customer')}}">Customer List</a>
                     </div>
                 </div>
             </li>
+
+            @endrole
 
             <!-- Nav Item - Bookings Collapse Menu -->
             <li class="nav-item">
@@ -85,8 +89,10 @@
                 <div id="collapseBookings" class="collapse" aria-labelledby="headingBookings" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Bookings:</h6>
-                        <a class="collapse-item" href="admin/sbadmin/utilities-color.html">Add Booking</a>
-                        <a class="collapse-item" href="admin/sbadmin/utilities-border.html">Booking List</a>
+                        @can('booking.create')
+                        <a class="collapse-item" href="{{route('booking.create')}}">Add Booking</a>
+                        @endcan
+                        <a class="collapse-item" href="{{route('booking')}}">Booking List</a>
                       
                     </div>
                 </div>
@@ -128,12 +134,22 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Utilities:</h6>
+
+                        <a class="collapse-item" href="{{route('coupon')}}">Coupons</a>
+                        <a class="collapse-item" href="{{route('document')}}">Documents</a>
+                        <a class="collapse-item" href="{{route('slider')}}">Sliders</a>
+                        <a class="collapse-item" href="{{route('tax')}}">Taxes</a>
+                       
+<!-- 
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-color.html')}}">Colors</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-border.html')}}">Borders</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-animation.html')}}">Animations</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/utilities-other.html')}}">Other Utilities</a>
                         <a class="collapse-item" href="{{URL::to('admin/sbadmin/buttons.html')}}">Buttons</a>
-                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/cards.html')}}">Cards</a> 
+                        <a class="collapse-item" href="{{URL::to('admin/sbadmin/cards.html')}}">Cards</a>
+
+ -->
+
                     </div>
                 </div>
             </li>
@@ -150,7 +166,7 @@
 
             <!-- Nav Item - Settings Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{route('setting')}}">
                     <i class="fas fa-fw fa-cogs"></i>
                     <span>Settings</span>
                 </a>
