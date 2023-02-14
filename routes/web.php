@@ -149,8 +149,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/coupon/create',[CouponController::class,'create'])->name('coupon.create');
     Route::post('/coupon/store',[CouponController::class,'store'])->name('coupon.store');
     Route::get('/coupon/edit/{id}',[CouponController::class, 'edit'])->name('coupon.edit');
-    Route::post('/coupon/update/{id}',[CouponController::class,'update'])->name('service.update');
-    Route::get('/coupon/destroy/{id}',[CouponController::class,'destroy'])->name('service.destroy');
+    Route::post('/coupon/update/{id}',[CouponController::class,'update'])->name('coupon.update');
+    Route::get('/coupon/destroy/{id}',[CouponController::class,'destroy'])->name('coupon.destroy');
 
 
    

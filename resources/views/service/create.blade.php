@@ -1,4 +1,3 @@
-<x-header title="Create Service - Gharmai Admin"/>
 @extends('layouts.app')
 
 @section('content')
@@ -11,7 +10,7 @@
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<h6 class="m-0 font-weight-bold text-primary">Add Service</h6>
 			<div class="dropdown no-arrow">
-				<a href="{{route('permission')}}">
+				<a href="{{route('service')}}">
 					<i class="fas fa-arrow-left"></i>&nbsp;Back to Service List
 				</a>
 			</div>
@@ -31,12 +30,10 @@
 								<span class="text-danger">{{ $errors->first('name')}}</span>
 								@endif
 							</div>
-
 							<div class="form-group">
 								<label for="InputDescription" class="form-label">Description *</label>
 								<textarea class="form-control form-control-user" id="InputDescription"
-								placeholder="Enter Description" name="description" value="{{old('description')}}">
-								</textarea>
+								placeholder="Enter Description" name="description" rows="2" wrap="physical" name="comments">{{old('description')}}</textarea>
 								@if ($errors->has('description'))
 								<span class="text-danger">{{ $errors->first('description')}}</span>
 								@endif

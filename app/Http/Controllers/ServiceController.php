@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\Service;
+use Illuminate\Validation\Rule;
+
 
 class ServiceController extends Controller
 {
@@ -23,7 +26,6 @@ class ServiceController extends Controller
    
     }
 
-
     public function index(Request $req){
 
         //
@@ -36,8 +38,8 @@ class ServiceController extends Controller
                     $html .= '<a href="service/destroy/'.$row->id.'"id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
                     return $html;
                 })
-                ->editColumn('created_at', function ($permissions) {
-                return $services->created_at;}) // no formatting, just returned $roles->created_at; 
+                ->editColumn('status', function ($services) {
+                return $services->status;}) // no formatting, just returned $roles->created_at; 
                 ->rawColumns(['action'])
                 ->make(true);
              
@@ -65,15 +67,16 @@ class ServiceController extends Controller
     public function store(Request $req)
     {
         //
-        //
         $req->validate([
-            'name'=>'required|string|max:255|unique:permissions'
+            'name'=>'required|string|max:255|unique:services',
+            'description' => 'required'
         ]);
         $service = Service::create([
-            'name' => $req->name
+            'name' => $req->name,
+            'description' => $req->description
         ]);
-        return redirect("service")->with('success','Service Created Successfully!');
 
+        return redirect("service")->with('success','Service Created Successfully!');
     }
 
     /**
@@ -98,7 +101,6 @@ class ServiceController extends Controller
         //
         //
         $service=Service::findOrFail($id);
-        
         return view('service.edit',compact('service'));
     }
 
@@ -113,11 +115,14 @@ class ServiceController extends Controller
     {
         //
         $req->validate([
-            'name'  => 'required|string|max:255|unique:services',
+            'name'=>'required|string|max:255|unique:services,name,' . $id,
+            'description' => 'required'
+
         ]);
         $service=Service::findOrFail($id);
         $service->update([
             'name'=>$req->name,
+            'description'=>$req->description
         ]);
         return redirect("service")->with('success','Service Update Successful!');
     }
@@ -133,6 +138,6 @@ class ServiceController extends Controller
         //
         $service=Service::findOrFail($id);
         $service->delete();
-        return redirect("servie")->with('success','Service Deletion Successful');   
+        return redirect("service")->with('success','Service Deletion Successful');   
     }
 }

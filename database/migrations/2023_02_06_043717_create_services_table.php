@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->nullable();
+            $table->string('name', 100)->nullable()->unique();
             $table->text('description')->nullable();
             $table->tinyInteger('status')->nullable()->default('1')->comment('1- Active , 0- InActive');
             $table->tinyInteger('is_featured')->nullable()->default('0');

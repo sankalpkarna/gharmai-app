@@ -6,7 +6,7 @@
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-fw fa-building"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Gharmai <sup>Admin</sup></div>
+                <div class="sidebar-brand-text mx-3">Gharmai <br>Admin</div>
             </a>
 
             <!-- Divider -->
@@ -89,9 +89,7 @@
                 <div id="collapseBookings" class="collapse" aria-labelledby="headingBookings" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Bookings:</h6>
-                        @can('booking.create')
                         <a class="collapse-item" href="{{route('booking.create')}}">Add Booking</a>
-                        @endcan
                         <a class="collapse-item" href="{{route('booking')}}">Booking List</a>
                       
                     </div>

@@ -89,8 +89,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'user-index',
             'user-create',
             'user-edit',
-            'user-destroy'
-            
+            'user-destroy'            
         ];
        
         foreach ($permissions as $permission) {
