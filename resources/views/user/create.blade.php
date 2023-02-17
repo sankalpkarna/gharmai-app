@@ -19,13 +19,13 @@
 		<div class="card-body">
 			<!-- Nested Row within Card Body -->
 			<div class="row justify-content-center">
-				<div class="col-xl-9">
+				<div class="col-xl-9  card shadow mb-4">
 					<div class="p-5">
 						<form class="user" action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">
 							@csrf
 							<div class="form-group">
 								<label for="InputName" class="form-label">Name</label>
-								<input type="text" class="form-control form-control-user" id="inputname"
+								<input type="text" class="form-control " id="inputname"
 								placeholder="Enter your Name" name="name" value="{{old('name')}}">
 								@if ($errors->has('name'))
 								<span class="text-danger">{{ $errors->first('name')}}</span>
@@ -33,7 +33,7 @@
 							</div>
 							<div class="form-group">
 								<label for="InputEmail" class="form-label">E-mail</label>
-								<input type="email" class="form-control form-control-user" id="inputemail"
+								<input type="email" class="form-control " id="inputemail"
 								placeholder="Email Address" name="email" value="{{old('email')}}">
 								@if ($errors->has('email'))
 								<span class="text-danger">{{ $errors->first('email') }}</span>
@@ -43,7 +43,7 @@
 							<div class="form-group row">
 								<div class="col-sm-6 mb-3 mb-sm-0">
 									<label for="exampleInputPassword" class="form-label">Password</label>
-									<input type="password" class="form-control form-control-user"
+									<input type="password" class="form-control "
 									id="InputPassword" placeholder="Password" name="password">
 
 									@if ($errors->has('password'))
@@ -52,7 +52,7 @@
 								</div>
 								<div class="col-sm-6">
 									<label for="exampleRepeatPassword" class="form-label">Confirm Password</label>
-									<input type="password" class="form-control form-control-user"
+									<input type="password" class="form-control "
 									id="ConfirmPassword" placeholder="Confirm Password" name="confirm_password">
 									@if ($errors->has('confirm_password'))
 									<span class="text-danger">{{ $errors->first('confirm_password') }}</span>
@@ -61,7 +61,7 @@
 							</div>
 							<div class="form-group">
 								<label for="InputMobileNumber" class="form-label">Mobile Number</label>
-								<input type="text" class="form-control form-control-user" id="InputMobileNumber"
+								<input type="text" class="form-control " id="InputMobileNumber"
 								placeholder="Enter your Mobile Number" name="mobile_number" value="{{old('mobile_number')}}">
 								@if ($errors->has('mobile_number'))
 								<span class="text-danger">{{ $errors->first('mobile_number')}}</span>
@@ -75,9 +75,12 @@
                                     <option value="{{ $role->name }}">{{ $role->name }}</option>
                                 	@endforeach
 								</select>
+								@if ($errors->has('role'))
+                                <span class="text-danger">{{ $errors->first('role')}}</span>
+                                @endif
 							</div>    
 							<div align="center">
-							<button type="submit" class="btn btn-primary btn-user btn-lg btn-icon-split"><span class="text">Create User</span></button>
+							<button type="submit" class="btn btn-primary btn-lg btn-icon-split"><span class="text">Create User</span></button>
 							</div>	
 						</form>
 						<hr>

@@ -17,14 +17,14 @@
         <div class="card-body">
             <!-- Nested Row within Card Body -->
             <div class="row justify-content-center">
-                <div class="col-xl-9">
+                <div class="col-xl-9 card shadow mb-4">
                     <div class="p-5">
                         <form class="user" action="{{route('user.update')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id" value="{{$user->id}}">
                             <div class="form-group">
                                 <label for="InputName" class="form-label">Name</label>
-                                <input type="text" class="form-control form-control-user" id="inputname"
+                                <input type="text" class="form-control " id="inputname"
                                 placeholder="Enter your Name" name="name" value="{{$user->name}}">
                                 @if ($errors->has('name'))
                                 <span class="text-danger">{{ $errors->first('name')}}</span>
@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputEmail" class="form-label">E-mail</label>
-                                <input type="email" class="form-control form-control-user" id="inputemail"
+                                <input type="email" class="form-control " id="inputemail"
                                 placeholder="Email Address" name="email" value="{{$user->email}}" disabled>
                                 @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputMobileNumber" class="form-label">Mobile Number</label>
-                                <input type="text" class="form-control form-control-user" id="InputMobileNumber"
+                                <input type="text" class="form-control " id="InputMobileNumber"
                                 placeholder="Enter your Mobile Number" name="mobile_number" value="{{$user->mobile_number}}">
                                 @if ($errors->has('mobile_number'))
                                 <span class="text-danger">{{ $errors->first('mobile_number')}}</span>
@@ -58,11 +58,14 @@
                                     >
                                         {{ $role->name }}
                                     </option>
-                                @endforeach
+                                    @endforeach
                                 </select>
+                                @if ($errors->has('role'))
+                                <span class="text-danger">{{ $errors->first('role')}}</span>
+                                @endif
                             </div>    
                             <div align="center">
-                            <button type="submit" class="btn btn-primary btn-user btn-lg btn-icon-split"><span class="text">Edit User</span></button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-icon-split"><span class="text">Edit User</span></button>
                             </div>  
                         </form>
                         <hr>

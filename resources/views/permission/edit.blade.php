@@ -18,13 +18,13 @@
 		<div class="card-body">
 			<!-- Nested Row within Card Body -->
 			<div class="row justify-content-center">
-				<div class="col-xl-9">
+				<div class="col-xl-9 card shadow mb-4">
 					<div class="p-5">
 						<form class="permission" action="{{route('permission.update',$permission->id)}}" method="POST" enctype="multipart/form-data">
 							@csrf
 							<div class="form-group">
 								<label for="InputName" class="form-label">Name</label>
-								<input type="text" class="form-control form-control-user" id="inputname"
+								<input type="text" class="form-control" id="inputname"
 								placeholder="Enter Permission Name" name="name" value="{{$permission->name}}">
 								@if ($errors->has('name'))
 								<span class="text-danger">{{ $errors->first('name')}}</span>
@@ -32,7 +32,7 @@
 							</div>
 								   
 							<div align="center">
-							<button type="submit" class="btn btn-primary btn-user btn-lg btn-icon-split"><span class="text">Update Permission</span></button>
+							<button type="submit" class="btn btn-primary btn-lg btn-icon-split"><span class="text">Update Permission</span></button>
 							</div>	
 						</form>
 						<hr>

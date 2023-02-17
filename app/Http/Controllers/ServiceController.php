@@ -35,14 +35,22 @@ class ServiceController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<a href="service/edit/'.$row->id.'" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-edit"></i></a> ';
-                    $html .= '<a href="service/destroy/'.$row->id.'"id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
+                    $html .= '<a href="#" id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
                     return $html;
                 })
-                ->editColumn('status', function ($services) {
-                return $services->status;}) // no formatting, just returned $roles->created_at; 
+                ->addColumn('description',function($services){
+                    return $services->description;
+                })
+                ->addColumn('status', function ($services) {
+                    if($services->status=="1"){
+                        return "Active";
+                    }
+                    else{
+                        return "InActive";
+                    }
+                }) // no formatting, just returned $roles->created_at; 
                 ->rawColumns(['action'])
                 ->make(true);
-             
         }
         return view("service.index");
     }
@@ -69,12 +77,19 @@ class ServiceController extends Controller
         //
         $req->validate([
             'name'=>'required|string|max:255|unique:services',
-            'description' => 'required'
+            'description' => 'required',            
+            'status' =>'required',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+
         ]);
+
         $service = Service::create([
             'name' => $req->name,
-            'description' => $req->description
+            'description' => $req->description,
+            'status' => $req->status
         ]);
+
+        $req->file('image')->storeAs('public/services',$req->name);
 
         return redirect("service")->with('success','Service Created Successfully!');
     }
@@ -99,7 +114,6 @@ class ServiceController extends Controller
     public function edit($id)
     {
         //
-        //
         $service=Service::findOrFail($id);
         return view('service.edit',compact('service'));
     }
@@ -116,14 +130,21 @@ class ServiceController extends Controller
         //
         $req->validate([
             'name'=>'required|string|max:255|unique:services,name,' . $id,
-            'description' => 'required'
+            'description' => 'required',
+            'status' =>'required',
+            'image' => 'image|mimes:png,jpg,jpeg|max:2048'
 
         ]);
         $service=Service::findOrFail($id);
         $service->update([
             'name'=>$req->name,
-            'description'=>$req->description
+            'description'=>$req->description,
+            'status' => $req->status
         ]);
+        if($req->file('image')){
+
+            $req->file('image')->storeAs('public/services',$req->name);    
+        }
         return redirect("service")->with('success','Service Update Successful!');
     }
 
@@ -138,6 +159,8 @@ class ServiceController extends Controller
         //
         $service=Service::findOrFail($id);
         $service->delete();
-        return redirect("service")->with('success','Service Deletion Successful');   
+        return response()->json(['success' => true, 'message' => 'Service Deletion Successful']);
+
+        //return redirect("service")->with('success','Service Deletion Successful');   
     }
 }
