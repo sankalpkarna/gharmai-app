@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Provider extends Model
 {
     use HasFactory;
-    
-    function getNameAttribute($value){
-        return ucfirst($value);
-    }
+
+    protected $fillable = [
+        'user_id',
+        'service_id',
+        'document_id',
+        'document_number',
+        'status',
+        'is_featured'
+    ];
 }

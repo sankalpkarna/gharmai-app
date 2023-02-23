@@ -30,7 +30,7 @@
                         <th>Name</th>
                         <th>E-mail</th>
                         <th>Role</th>
-                        <th>Created Date</th>                    
+                        <th>Updated Date</th>                    
                         <th width="150">Actions</th>
                     </tr>
                 </thead>
@@ -39,7 +39,7 @@
                         <th>Name</th>
                         <th>E-mail</th>
                         <th>Role</th>
-                        <th>Created Date</th>
+                        <th>Updated Date</th>
                         <th width="150">Actions</th>
                     </tr>
                 </tfoot>
@@ -66,32 +66,38 @@
 <!-- // Call the dataTables jQuery plugin -->
 <script>
     $(document).ready(function() {
-      var table = $('#usersdataTable').DataTable({
-         processing: true,
-         serverSide: true,
-         ajax: "{{route('user')}}",
-         columns: [
+        var user_id;
+
+        var table = $('#usersdataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('user')}}",
+        columns: [
             {data: 'name',name: 'name'},
             {data: 'email',name: 'email'},
             {data: 'roles.[].name',name: 'roles'},
-            {data: 'created_at',name: 'created_at'},
+            {data: 'updated_at',name: 'updated_at'},
             {data: 'action',name: 'action',orderable: true,searchable: true}
-            ]
-     });
-  });
+            ],
+        aaSorting: [[4, 'desc']],
 
+        });
 
-    $(document).on('click','.delete',function(){
-
-        var id=$(this).data('id');
-
-        if(confirm("Are you sure you want to delete this User?")){
-            window.location.href;
-        }
-
+        $(document).on('click', '.delete', function(){
+           user_id = $(this).attr('id');
+           $('#confirmModal').modal('show');
+        });
+        $('#ok_button').click(function(){
+            $.ajax({
+                url:"user/destroy/"+user_id,                
+                success:function(data){
+                    $('#confirmModal').modal('hide');
+                    $('#usersdataTable').DataTable().ajax.reload();
+                    $('div.flash-message').html(data);
+                }
+            })
+        });
     });
-
-
 </script>
 @endpush
 

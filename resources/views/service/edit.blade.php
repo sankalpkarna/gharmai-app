@@ -62,8 +62,10 @@
 
 							<div class="form-group">
 								<label for="InputServiceImage" class="form-label">Image *</label>
-								 <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" src="{{ asset('storage/services/'.$service->name) }}" alt="" title=""></a>
 								<input class="btn btn-light" type="file" name="image">
+								@if($service)
+								 <img class="img-thumbnail px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="{{ asset('storage/services/'.$service->name) }}" alt="" title=""></a>
+								@endif
 								@if ($errors->has('image'))
 								<span class="text-danger">{{ $errors->first('image')}}</span>
 								@endif

@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+//for Ajax flash message
+use Session;
+use View;
+
+
 class RoleController extends Controller
 {
     /**
@@ -29,11 +34,11 @@ class RoleController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<a href="role/edit/'.$row->id.'" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-edit"></i></a> ';
-                    $html .= '<a href="role/destroy/'.$row->id.'"id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
+                    $html .= '<a href="javascript:void(0)"  id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
                     return $html;
                 })
-                ->editColumn('created_at', function ($roles) {
-                return $roles->created_at;}) // no formatting, just returned $roles->created_at; 
+                ->editColumn('updated_at', function ($roles) {
+                return $roles->updated_at;}) // no formatting, just returned $roles->created_at; 
                 ->rawColumns(['action'])
                 ->make(true);
              
@@ -132,6 +137,9 @@ class RoleController extends Controller
         $permissions=$role->permissions->first();
         $role->revokePermissionTo($permissions);
         $role->delete();
-        return redirect("role")->with('success','Role Deletion Successful');       
+
+        Session::flash('success', 'Role Deletion Successful!');
+        return View::make('layouts/flash-message');
+        //return redirect("role")->with('success','Role Deletion Successful');       
     }
 }

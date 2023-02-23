@@ -30,7 +30,7 @@
                         <th>ID</th>
                         <th>Role</th>
                         <th>Permissions</th>
-                        <th>Created Date</th>                    
+                        <th>Updated Date</th>                    
                         <th width="150">Actions</th>
                     </tr>
                 </thead>
@@ -39,7 +39,7 @@
                         <th>ID</th>
                         <th>Role</th>
                         <th>Permissions</th>
-                        <th>Created Date</th>
+                        <th>Updated Date</th>
                         <th width="150">Actions</th>
                     </tr>
                 </tfoot>
@@ -65,31 +65,37 @@
 <!-- // Call the dataTables jQuery plugin -->
 <script>
     $(document).ready(function() {
-      var table = $('#roledataTable').DataTable({
-         processing: true,
-         serverSide: true,
-         ajax: "{{route('role')}}",
-         columns: [
+        var role_id;
+        var table = $('#roledataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('role')}}",
+        columns: [
             {data: 'id',name: 'id'},
             {data: 'name',name: 'name'},
             {data: 'permissions.[].name', name: 'permissions'},
-            {data: 'created_at',name: 'created_at'},
+            {data: 'updated_at',name: 'updated_at'},
             {data: 'action',name: 'action',orderable: true,searchable: true}
-            ]
+            ],
+        aaSorting: [[4, 'desc']],
+
      });
+
+        $(document).on('click', '.delete', function(){
+            role_id = $(this).attr('id');
+            $('#confirmModal').modal('show');
+        });
+        $('#ok_button').click(function(){
+            $.ajax({
+                url:"role/destroy/"+role_id,                
+                success:function(data){
+                    $('#confirmModal').modal('hide');
+                    $('#roledataTable').DataTable().ajax.reload();
+                    $('div.flash-message').html(data);
+                }
+            })
+        });
   });
-
-
-    $(document).on('click','.delete',function(){
-
-        var id=$(this).data('id');
-
-        if(confirm("Are you sure you want to delete this role?")){
-            window.location.href;
-        }
-
-    });
-
 
 </script>
 @endpush

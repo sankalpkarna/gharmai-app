@@ -11,6 +11,10 @@ use Hash;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
 
+//for Ajax flash message
+use Session;
+use View;
+
 class UserController extends Controller
 {
 
@@ -35,11 +39,11 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<a href="user/edit/'.$row->id.'" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-edit"></i></a> ';
-                    $html .= '<a href="user/destroy/'.$row->id.'"id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
+                    $html .= '<a href="javascript:void(0)" id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
                     return $html;
                 })
-                ->editColumn('created_at', function ($users) {
-                return $users->created_at;}) // no formatting, just returned $users->created_at; 
+                ->editColumn('updated_at', function ($users) {
+                return $users->updated_at;}) // no formatting, just returned $users->created_at; 
                 ->rawColumns(['action'])
                 ->make(true);             
         }
@@ -57,7 +61,10 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:100',
             'confirm_password' =>'required|same:password',
-            'mobile_number' =>'required',
+            'mobile_number' =>'required|min:10',
+            'gender' => 'required',
+            'dob' => 'required|date',
+            'address' => 'required|max:255',
             'role'=>'required',
 
         ]);
@@ -65,7 +72,10 @@ class UserController extends Controller
             'name' => $req->name,
             'email' => $req->email,
             'password' => Hash::make($req->password),
-            'mobile_number' => $req->mobile_number
+            'mobile_number' => $req->mobile_number,
+            'gender' => $req->gender,
+            'dob' => $req->dob,
+            'address' => $req->address
         ]);
         $user->assignRole($req->role);
         return redirect("user")->with('success','User Created Successfully!');
@@ -95,15 +105,21 @@ class UserController extends Controller
         $req->validate([
             'name' => 'required|min:2|max:100',
             'mobile_number' =>'required',
+            'gender' => 'required',
+            'dob' => 'required|date',
+            'address' => 'required|max:255',
             'role'=>'required',            
         ]);
         $user=User::findOrFail($req->id);
         $user->update([
             'name' => $req->name,
-            'mobile_number' =>$req->mobile_number
+            'mobile_number' =>$req->mobile_number,
+            'gender' => $req->gender,
+            'dob' => $req->dob,
+            'address' => $req->address
         ]);
         $user->syncRoles($req->role);
-        return redirect("user")->with('success','User Update Successful!');        
+        return redirect()->route('user.edit',['id'=>$req->id])->with('success','User Update Successful!');        
     }
 
     public function destroy($id){
@@ -112,7 +128,11 @@ class UserController extends Controller
         $role=$user->roles->first();
         $user->removeRole($role);
         $user->delete();
-        return redirect('user')->with('success','User Deletion Successful!');
+
+        Session::flash('success', 'User Deletion Successful!');
+        return View::make('layouts/flash-message');
+
+        //return redirect('user')->with('success','User Deletion Successful!');
     }
 }
 

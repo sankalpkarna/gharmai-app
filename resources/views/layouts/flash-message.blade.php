@@ -1,3 +1,5 @@
+<div class="flash-message">
+
 @if ($message = session()->get('success'))
 <div class="alert alert-success alert-block">
     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -28,4 +30,6 @@
     Check the following errors :(
 </div>
 @endif
+
+</div>
 

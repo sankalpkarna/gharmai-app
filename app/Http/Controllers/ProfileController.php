@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Hash;
+use Spatie\Permission\Models\Role;
 
 class ProfileController extends Controller
 {
@@ -20,33 +21,56 @@ class ProfileController extends Controller
     
     public function index(){
 
-        $data= User::findOrFail(Auth::user()->id);
-        return view('profile.index',compact('data'));
+        $user= User::findOrFail(Auth::user()->id);
+        $roles = Role::latest()->get();
+
+        return view('profile.index',compact('user','roles'));
     }
 
     public function update(Request $req){
-
         $req->validate([
             'name' => 'required|min:2|max:100',
-            'role'=>'required',
+            'mobile_number' =>'required',
+            'gender' => 'required',
+            'dob' => 'required|date',
+            'address' => 'required|max:255',
         ]);
-
         $user=auth()->user();
-
         $user->update([
-            'name'=> $req->name,
-            'role'=> $req->role,
+            'name' => $req->name,
+            'mobile_number' =>$req->mobile_number,
+            'gender' => $req->gender,
+            'dob' => $req->dob,
+            'address' => $req->address
         ]);
-   
         return redirect()->route('profile')->with('success','Profile Updated');
+    }
 
+    public function changeProfilepic(Request $req){
+        if($req->file('profile_image')){
+            $req->validate([
+            'profile_image' => 'image|mimes:png,jpg,jpeg|max:2048',
+            ]);
+
+            if($req->file('profile_image')){
+
+                $req->file('profile_image')->storeAs('public/users',$req->id);    
+            }
+            return redirect()->route('profile')->with('success','Profile Picture Updated');
+        }
+        else{
+            return redirect()->route('profile')->with('info','Please upload Profile Picture');
+        }
     }
 
     public function destroy(){
 
-        
-
-
+        $user = User::With('roles')->findOrFail(Auth::user()->id);
+        // return $user->roles;
+        $role=$user->roles->first();
+        $user->removeRole($role);
+        $user->delete();
+        return redirect()->route('login')->with('success','Profile Deletion Successful!');
     }
 
     public function security(){

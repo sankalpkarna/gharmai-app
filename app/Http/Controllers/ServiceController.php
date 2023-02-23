@@ -8,6 +8,9 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Service;
 use Illuminate\Validation\Rule;
 
+//for Ajax flash message
+use Session;
+use View;
 
 class ServiceController extends Controller
 {
@@ -27,7 +30,6 @@ class ServiceController extends Controller
     }
 
     public function index(Request $req){
-
         //
         if ($req->ajax()) {
             $services = Service::latest()->get();
@@ -35,20 +37,24 @@ class ServiceController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<a href="service/edit/'.$row->id.'" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-edit"></i></a> ';
-                    $html .= '<a href="#" id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
+                    $html .= '<a href="javascript:void(0)"  id="' . $row->id . '" class="btn btn-danger btn-circle btn-sm delete"><i class="fas fa-trash"></i></a>';
                     return $html;
                 })
-                ->addColumn('description',function($services){
+                ->editColumn('description',function($services){
                     return $services->description;
                 })
-                ->addColumn('status', function ($services) {
+                ->editColumn('status', function ($services) {
                     if($services->status=="1"){
                         return "Active";
                     }
                     else{
                         return "InActive";
                     }
-                }) // no formatting, just returned $roles->created_at; 
+                }) 
+                ->editColumn('updated_at',function($services){
+                    return $services->updated_at;
+                })
+                // no formatting, just returned $roles->created_at; 
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -145,7 +151,7 @@ class ServiceController extends Controller
 
             $req->file('image')->storeAs('public/services',$req->name);    
         }
-        return redirect("service")->with('success','Service Update Successful!');
+        return redirect()->route('service.edit',['id'=>$id])->with('success','Service Update Successful!');
     }
 
     /**
@@ -159,7 +165,17 @@ class ServiceController extends Controller
         //
         $service=Service::findOrFail($id);
         $service->delete();
-        return response()->json(['success' => true, 'message' => 'Service Deletion Successful']);
+      
+
+        Session::flash('success', 'Service Deletion Successful!');
+        return View::make('layouts/flash-message');
+
+        /*
+        return response()->json([
+            'success' => true, 
+            'message' => 'Service Deletion Successful',
+            'data' => $service
+        ]);*/
 
         //return redirect("service")->with('success','Service Deletion Successful');   
     }

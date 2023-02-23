@@ -15,16 +15,13 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->date('bday');
-            $table->string('gender',10);
-            $table->string('address');
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('users');     
-            $table->double('lat');
-            $table->double('lng');
-            $table->unsignedBigInteger('document_id');
+            $table->unsignedBigInteger('user_id');
+            $table->double('lat')->nullable();;
+            $table->double('lng')->nullable();;
             $table->tinyInteger('status')->nullable()->default('1');
             $table->tinyInteger('is_featured')->nullable()->default('0');
+
+            $table->foreign('user_id')->references('id')->on('users');     
             $table->timestamps();
         });
     }

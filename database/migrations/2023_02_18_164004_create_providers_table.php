@@ -15,20 +15,19 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('provider_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('document_id');
 
-            $table->date('bday');
-            $table->string('gender',10);
-            $table->text('address')->nullable();
+            $table->text('document_number')->nullable();
             $table->text('latitude')->nullable();
             $table->text('longitude')->nullable();
-            $table->tinyInteger('status')->nullable()->default('0');
+            $table->tinyInteger('status')->nullable()->default('1');
             $table->tinyInteger('is_featured')->nullable()->default('0');
 
-            $table->foreign('provider_id')->references('id')->on('users');
-            $table->foreign('service_id')->references('id')->on('services');        
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('service_id')->references('id')->on('services');       
+            $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

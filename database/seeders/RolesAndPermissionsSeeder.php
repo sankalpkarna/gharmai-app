@@ -75,6 +75,8 @@ class RolesAndPermissionsSeeder extends Seeder
         //Permissions
         $permissions = [
             'profile-index',
+            'profile-edit',
+            'profile-change-profilepic',
             'profile-security',
             'profile-change-password',
             'profile-destroy',
@@ -89,7 +91,14 @@ class RolesAndPermissionsSeeder extends Seeder
             'user-index',
             'user-create',
             'user-edit',
-            'user-destroy'            
+            'user-destroy',
+            'service-index',
+            'service-create',
+            'service-edit',
+            'service-destroy',
+            'provider-index',
+            'provider-edit'
+                        
         ];
        
         foreach ($permissions as $permission) {
@@ -97,12 +106,12 @@ class RolesAndPermissionsSeeder extends Seeder
         }
 
         //Assign permissions from the admin portal or from below code.
-        /*
+        
         $role_permissions = Permission::pluck('id','id')->all();
      
-        $role->givePermissionTo($role_permissions);
+        $adminrole->givePermissionTo($role_permissions);
 
-        */
+        
        
     }
 }

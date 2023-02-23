@@ -90,10 +90,7 @@
                         <div class="card-header">Delete Account</div>
                         <div class="card-body">
                             <p>Deleting your account is a permanent action and cannot be undone. If you are sure you want to delete your account, select the button below.</p>
-                            <a href="#" class="btn btn-danger btn-icon-split">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-trash"></i>
-                                </span>
+                            <a href="#" class="btn btn-danger-soft text-danger delete">
                                 <p class="mb-0">I understand, delete my account</p>
                             </a>
                         </div>
@@ -103,4 +100,24 @@
         </div>
     </div>
 </div>
+@push('script')
+<!-- Page level plugins -->
+<script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+<!-- Page level custom scripts -->
+<!--     <script src="{{asset('admin/js/demo/datatables-demo.js')}}"></script> -->
+<!-- // Call the dataTables jQuery plugin -->
+<script>
+    $(document).ready(function() { 
+        $(document).on('click', '.delete', function(){
+           $('#confirmModal').modal('show');
+        });
+        $('#ok_button').click(function(){
+             location.href = "{{route('profile.destroy')}}";
+        });
+
+    });
+</script>
+@endpush
 @endsection

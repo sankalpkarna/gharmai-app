@@ -29,7 +29,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Permission</th>
-                        <th>Created Date</th>                    
+                        <th>Updated Date</th>                    
                         <th width="150">Actions</th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Permisson</th>
-                        <th>Created Date</th>
+                        <th>Updated Date</th>
                         <th width="150">Actions</th>
                     </tr>
                 </tfoot>
@@ -63,31 +63,36 @@
 <!-- // Call the dataTables jQuery plugin -->
 <script>
     $(document).ready(function() {
-      var table = $('#permissiondataTable').DataTable({
-         processing: true,
-         serverSide: true,
-         ajax: "{{route('permission')}}",
+        var permission_id;
+        var table = $('#permissiondataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('permission')}}",
          columns: [
             {data: 'id',name: 'id'},
             {data: 'name',name: 'name'},
-            {data: 'created_at',name: 'created_at'},
+            {data: 'updated_at',name: 'updated_at'},
             {data: 'action',name: 'action',orderable: true,searchable: true}
-            ]
-     });
+            ],
+        aaSorting: [[3, 'desc']],
+
+        });
+
+        $(document).on('click', '.delete', function(){
+           permission_id = $(this).attr('id');
+           $('#confirmModal').modal('show');
+        });
+        $('#ok_button').click(function(){
+            $.ajax({
+                url:"permission/destroy/"+permission_id,                
+                success:function(data){
+                    $('#confirmModal').modal('hide');
+                    $('#permissiondataTable').DataTable().ajax.reload();
+                    $('div.flash-message').html(data);
+                }
+            })
+        });
   });
-
-
-    $(document).on('click','.delete',function(){
-
-        var id=$(this).data('id');
-
-        if(confirm("Are you sure you want to delete this permission?")){
-            window.location.href;
-        }
-
-    });
-
-
 </script>
 @endpush
 

@@ -49,6 +49,27 @@
     <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- Delete Confirm Modal-->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Are you sure you want to remove this data?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" type="button" name="ok_button" id="ok_button" >OK</button>        
+            </div>
+        </div>
+    </div>
+    </div>
+
+    
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -80,7 +101,6 @@
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
 
     @stack('script')
-
      
 </body>
 

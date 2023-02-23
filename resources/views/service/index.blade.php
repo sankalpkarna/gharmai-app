@@ -30,7 +30,8 @@
                         <th>ID</th>
                         <th>Services</th>
                         <th>Description</th>
-                        <th>Status</th>                    
+                        <th>Status</th>   
+                        <th>Updated Date</th>                      
                         <th width="150">Actions</th>
                     </tr>
                 </thead>
@@ -40,6 +41,7 @@
                         <th>Services</th>
                         <th>Description</th>
                         <th>Status</th>
+                        <th>Updated Date</th>     
                         <th width="150">Actions</th>
                     </tr>
                 </tfoot>
@@ -54,25 +56,7 @@
 </div>
 <!-- /.container-fluid -->
 
-<!-- Delete Confirm Modal-->
-<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body">Are you sure you want to remove this data?</div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <button class="btn btn-danger" type="button" name="ok_button" id="ok_button" >OK</button>        
-        </div>
-    </div>
-</div>
-</div>
+
 
 @push('script')
 <!-- Page level plugins -->
@@ -85,14 +69,6 @@ aria-hidden="true">
 <script>
     $(document).ready(function() {
         var service_id;
-
-        $.ajaxSetup({
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-
         var table = $('#servicedataTable').DataTable({
            processing: true,
            serverSide: true,
@@ -102,8 +78,11 @@ aria-hidden="true">
             {data: 'name',name: 'name'},
             {data: 'description', name: 'description'},
             {data: 'status',name: 'status'},
+            {data: 'updated_at', name: 'updated_at'},
             {data: 'action',name: 'action',orderable: true,searchable: true}
-            ]
+            ],
+          order: [[5, 'desc']],
+
         });
 
         $(document).on('click', '.delete', function(){
@@ -116,7 +95,8 @@ aria-hidden="true">
                 success:function(data){
                     $('#confirmModal').modal('hide');
                     $('#servicedataTable').DataTable().ajax.reload();
-                    alert('Data Deleted');
+                    $('div.flash-message').html(data);
+
                 }
             })
         });

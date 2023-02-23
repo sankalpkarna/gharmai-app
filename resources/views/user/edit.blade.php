@@ -46,6 +46,48 @@
                                 <span class="text-danger">{{ $errors->first('mobile_number')}}</span>
                                 @endif
                             </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="exampleInputGender" class="form-label">Gender *</label>
+                                    <div class="form-check form-inline">
+                                      <input class="form-check-input" type="radio" name="gender" id="InputGender" value="Male" {{ ($user->gender == 'Male') ? 'checked' : '' }}>
+                                      <label class="form-check-label">
+                                        Male
+                                      </label>
+                                    </div>
+                                    <div class="form-check form-inline">
+                                      <input class="form-check-input" type="radio" name="gender" id="InputGender2" value="Female" {{ ($user->gender == 'Female') ? 'checked' : '' }}>
+                                      <label class="form-check-label">
+                                        Female
+                                      </label>
+                                    </div>
+                                    <div class="form-check form-inline">
+                                      <input class="form-check-input" type="radio" name="gender" id="InputGender3" value="Others" {{ ($user->gender == 'Others') ? 'checked' : '' }}>
+                                      <label class="form-check-label">
+                                        Others
+                                      </label>
+                                    </div>
+                                     @if ($errors->has('gender'))
+                                     <span class="text-danger">{{ $errors->first('gender') }}</span>
+                                     @endif
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="exampleInputDOB" class="form-label">Date of Birth *</label>
+                                    <input type="date" class="form-control" name="dob" id="InputDOB" value="{{$user->dob}}">
+                                    @if ($errors->has('dob'))
+                                    <span class="text-danger">{{ $errors->first('dob')}}</span>
+                                    @endif
+                                </div>
+                            </div>      
+                            <div class="form-group">
+                                <label for="exampleInputAddress" class="form-label">Address *</label>
+                                <textarea class="form-control " id="InputAddress"
+                                placeholder="Enter Address" name="address" rows="2" wrap="physical">{{$user->address}}</textarea>
+                                @if ($errors->has('address'))
+                                <span class="text-danger">{{ $errors->first('address')}}</span>
+                                @endif
+                            </div>       
                             <div class="form-group">
                                 <label for="InputRole"  class="form-label">Role</label>
                                 <select class="form-select form-control" aria-label="Default select example" name="role">
@@ -68,8 +110,7 @@
                             <button type="submit" class="btn btn-primary btn-lg btn-icon-split"><span class="text">Edit User</span></button>
                             </div>  
                         </form>
-                        <hr>
-                        
+                        <hr>       
                     </div>
                 </div>
             </div>

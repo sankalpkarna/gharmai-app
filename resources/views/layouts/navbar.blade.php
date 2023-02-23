@@ -1,6 +1,5 @@
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
@@ -175,8 +174,14 @@
                     {{Auth::user()->name}}
                     @endif
                 </span>
-                <img class="img-profile rounded-circle"
-                    src="{{asset('admin/img/undraw_profile.svg')}}">
+                
+                @if(!File::exists(storage_path('storage/users/'. Auth::user()->id)))
+                    <img class="img-profile rounded-circle"
+                        src="{{asset('storage/users/'. Auth::user()->id)}}">
+                @else
+                    <img class="img-profile rounded-circle"
+                        src="{{asset('admin/img/undraw_profile.svg')}}">
+                @endif
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

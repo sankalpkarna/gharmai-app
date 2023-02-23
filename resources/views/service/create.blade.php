@@ -35,8 +35,8 @@
                                         <label for="InputStatus"  class="form-label">Status</label>
 										<select class="form-control " aria-label="Default select example" name="status">
 											<option selected="" disabled="">Select Status:</option>
-											<option value="1">Active</option>
-		                                    <option value="0">InActive</option>
+											<option value="1" {{ (old('status')=='1')? "selected" : "" }}>Active</option>
+		                                    <option value="0" {{ (old('status')=='0')? "selected" : "" }}>InActive</option>
 										</select>
 										@if ($errors->has('status'))
 										<span class="text-danger">{{ $errors->first('status')}}</span>

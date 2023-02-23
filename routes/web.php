@@ -68,7 +68,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile',[ProfileController::class,'index'])->name('profile');
     Route::post('/profile/update',[ProfileController::class,'update'])->name('profile.update');
     Route::get('/profile/security',[ProfileController::class, 'security'])->name('profile.security');
+    Route::get('/profile/destroy',[ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/change-password',[ProfileController::class,'changePassword'])->name('profile.change-password');
+    Route::post('/profile/change-profilepic',[ProfileController::class,'changeProfilepic'])->name('profile.change-profilepic');
+
+
 
     //Calling view from the User Controller
     Route::get('/user',[UserController::class,'index'])->name('user');
