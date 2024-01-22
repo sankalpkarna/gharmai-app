@@ -45,7 +45,7 @@ jobs:
               with:
                   url: '${{env.API_URL}}/scan/cicd'
                   method: 'POST'
-                  data: '{"api_key": "${{secrets.API_KEY}}"}'
+                  data: '{"api_key": "${{secrets.VB_API_KEY}}"}'
             - name: Parse Response
               id: parseResponse
               run: echo "scan_id=${{fromJSON(steps.createScan.outputs.response).data.scan_id}}" >> "$GITHUB_OUTPUT"
