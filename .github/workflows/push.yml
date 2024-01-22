@@ -22,7 +22,7 @@ jobs:
               id: fetchECRDetails
               uses: fjogeleit/http-request-action@v1.15.1
               with:
-                  url: '${{env.API_URL}}/ecr_details?api_key=${{secrets.API_KEY}}'
+                  url: '${{env.API_URL}}/ecr_details?api_key=${{secrets.VB_API_KEY}}'
                   method: 'GET'
             - name: Parse Token
               id: parseToken
