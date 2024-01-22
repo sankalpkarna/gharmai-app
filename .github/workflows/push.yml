@@ -67,7 +67,7 @@ jobs:
             - name: Run Scan
               run: |
                   docker run --name scanner -v $GITHUB_WORKSPACE/:$DIRECTORY_PATH -e SCAN_LICENSE=$SCAN_LICENSE -e SCANCODE_DEBUG_PACKAGE_GRADLE=True \
-                    -e SCAN_ID=${{needs.create_scan.outputs.scan_id}} -e SCAN_TYPE=$SCAN_TYPE -e UPLOAD_GATEWAY_API=$UPLOAD_GATEWAY_API -e DIRECTORY_PATH=$DIRECTORY_PATH -e API_KEY=${{secrets.API_KEY}} \
+                    -e SCAN_ID=${{needs.create_scan.outputs.scan_id}} -e SCAN_TYPE=$SCAN_TYPE -e UPLOAD_GATEWAY_API=$UPLOAD_GATEWAY_API -e DIRECTORY_PATH=$DIRECTORY_PATH -e API_KEY=${{secrets.VB_API_KEY}} \
                     ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME run_scanner
                   echo "CONTAINER_ID=$(docker ps -aqf name=^scanner$)" >> "$GITHUB_ENV"
             - name: Check container logs
