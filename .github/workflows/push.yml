@@ -1,13 +1,13 @@
 name: Scanner
 on: [push]
 env:
-    API_URL: 'https://api.dev.veribom.com/api/v1'
-    IMAGE_NAME: 'veribom-scanner-backend:develop'
+    API_URL: 'https://api.stage.veribom.com/api/v1'
+    IMAGE_NAME: 'veribom-scanner-backend:staging'
     SCAN_LICENSE: 'False'
     DEBUG: 'True'
     SCAN_TYPE: 'DIRECTORY'
     DIRECTORY_PATH: '/checkout'
-    UPLOAD_GATEWAY_API: 'https://uploadapi-gw.dev.veribom.com'
+    UPLOAD_GATEWAY_API: "https://uploadapi-gw.stage.veribom.com"
 
 jobs:
     ecr_details:
@@ -62,10 +62,12 @@ jobs:
                     ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com \
                     --password-stdin
                   docker pull ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME
+            - name: Checkout code
+              uses: actions/checkout@v4
             - name: Run Scan
               run: |
-                  docker run --name scanner -v $GITHUB_WORKSPACE/:$DIRECTORY_PATH -e UPLOAD_GATEWAY_API=$UPLOAD_GATEWAY_API -e SCAN_LICENSE=$SCAN_LICENSE -e SCANCODE_DEBUG_PACKAGE_GRADLE=True \
-                    -e SCAN_ID=${{needs.create_scan.outputs.scan_id}} -e SCAN_TYPE=$SCAN_TYPE -e DIRECTORY_PATH=$DIRECTORY_PATH -e API_KEY=${{secrets.API_KEY}} \
+                  docker run --name scanner -v $GITHUB_WORKSPACE/:$DIRECTORY_PATH -e SCAN_LICENSE=$SCAN_LICENSE -e SCANCODE_DEBUG_PACKAGE_GRADLE=True \
+                    -e SCAN_ID=${{needs.create_scan.outputs.scan_id}} -e SCAN_TYPE=$SCAN_TYPE -e UPLOAD_GATEWAY_API=$UPLOAD_GATEWAY_API -e DIRECTORY_PATH=$DIRECTORY_PATH -e API_KEY=${{secrets.API_KEY}} \
                     ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME run_scanner
                   echo "CONTAINER_ID=$(docker ps -aqf name=^scanner$)" >> "$GITHUB_ENV"
             - name: Check container logs
