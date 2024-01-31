@@ -7,7 +7,6 @@ env:
   DEBUG: 'True'
   SCAN_TYPE: 'DIRECTORY'
   DIRECTORY_PATH: '/checkout'
-
 jobs:
   ecr_details:
     runs-on: ubuntu-latest
