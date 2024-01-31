@@ -1,12 +1,14 @@
+
 name: Scanner
 on: [push]
 env:
-  API_URL: 'https://app.veribom.com'
+  API_URL: 'https://api.veribom.com/api/v1'
   IMAGE_NAME: 'veribom-scanner:latest'
   SCAN_LICENSE: 'False'
   DEBUG: 'True'
   SCAN_TYPE: 'DIRECTORY'
   DIRECTORY_PATH: '/checkout'
+
 jobs:
   ecr_details:
     runs-on: ubuntu-latest
@@ -16,13 +18,13 @@ jobs:
       ecr_region: ${{steps.ecr_details.outputs.region}}
       ecr_id: ${{steps.ecr_details.outputs.registry_id}}
     steps:
-      - name: Fetching VB Token
+      - name: Fetch ecr details
         id: fetchECRDetails
         uses: fjogeleit/http-request-action@v1.15.1
         with:
-            url: '${{env.API_URL}}/utilityapi/v1/registry?api_key=${{secrets.VB_API_KEY}}'
+            url: '${{env.API_URL}}/ecr_details?api_key=${{secrets.VB_API_KEY}}'
             method: 'GET'
-      - name: Decoding VB Token
+      - name: Parse Token
         id: parseToken
         run: echo "DECODED_TOKEN=$(echo ${{ fromJson(steps.fetchECRDetails.outputs.response).data }} | base64 -d)" >> "$GITHUB_OUTPUT"
       - name: ECR Details
@@ -37,11 +39,11 @@ jobs:
     outputs:
       scan_id: ${{steps.parseResponse.outputs.scan_id}}
     steps:
-      - name: Initiating SBOM Scan
+      - name: Create new scan
         id: createScan
         uses: fjogeleit/http-request-action@v1.15.1
         with:
-          url: '${{env.API_URL}}/utilityapi/v1/scan'
+          url: '${{env.API_URL}}/scan/cicd'
           method: 'POST'
           data: '{"api_key": "${{secrets.VB_API_KEY}}"}'
       - name: Parse Response
@@ -53,26 +55,31 @@ jobs:
     outputs:
       container_id: ${{steps.pullImage.outputs.container_id}}
     steps:
-      - name: Pulling VB Image
+      - name: Pull image from ecr
         id: pullImage
         run: |
-            echo "${{needs.ecr_details.outputs.ecr_token}}" | docker login -u ${{needs.ecr_details.outputs.ecr_username}}             ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com             --password-stdin
+            echo "${{needs.ecr_details.outputs.ecr_token}}" | docker login -u ${{needs.ecr_details.outputs.ecr_username}} \
+            ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com \
+            --password-stdin
             docker pull ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: Running VB Image
+      - name: Run Scan
         run: |
-            docker run --name scanner -v $GITHUB_WORKSPACE/:$DIRECTORY_PATH -e SCAN_LICENSE=$SCAN_LICENSE -e API_URL=$API_URL -e SCANCODE_DEBUG_PACKAGE_GRADLE=True             -e SCAN_ID=${{needs.create_scan.outputs.scan_id}} -e SCAN_TYPE=$SCAN_TYPE -e DIRECTORY_PATH=$DIRECTORY_PATH -e API_KEY=${{secrets.VB_API_KEY}}             ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME run_scanner
+            docker run --name scanner -v $GITHUB_WORKSPACE/:$DIRECTORY_PATH -e SCAN_LICENSE=$SCAN_LICENSE -e SCANCODE_DEBUG_PACKAGE_GRADLE=True \
+            -e SCAN_ID=${{needs.create_scan.outputs.scan_id}} -e SCAN_TYPE=$SCAN_TYPE -e DIRECTORY_PATH=$DIRECTORY_PATH -e API_KEY=${{secrets.VB_API_KEY}} \
+            ${{needs.ecr_details.outputs.ecr_id}}.dkr.ecr.${{needs.ecr_details.outputs.ecr_region}}.amazonaws.com/$IMAGE_NAME run_scanner
             echo "CONTAINER_ID=$(docker ps -aqf name=^scanner$)" >> "$GITHUB_ENV"
-      - name: Checking Container Logs
+      - name: Check container logs
         run: |
             set +e
-            ! docker logs $CONTAINER_ID 2>&1 | grep -qE '| *ERROR *|'
+            ! docker logs $CONTAINER_ID 2>&1 | grep -qE '\| *ERROR *\|'
             echo "SCAN_ERROR=$?" >> "$GITHUB_ENV"
             docker rm $CONTAINER_ID
-      - name: Checking for Warnings
+      - name: Check for warnings
         if: ${{env.SCAN_ERROR != 0}}
-        run: echo "VB Scanning Completed With Warnings"
-      - name: Checking for Warnings
+        run: echo "Scan completed with warnings"
+      - name: Check for warnings
         if: ${{env.SCAN_ERROR == 0}}
-        run: echo "VB Scanning Completed"
+        run: echo "Scan completed successfully"
+        
