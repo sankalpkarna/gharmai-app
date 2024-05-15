@@ -1,0 +1,16 @@
+meta:
+  schema-version: 0.1.0
+  created-on: "2024-05-15T03:59:28Z"
+  cli-version: 0.2.0
+projects:
+  sankalpkarna-gharmai-app-package-lock.json:
+    targets:
+      - package.json
+    manager:
+      ecosystem: node
+      name: npm
+      version: "7"
+    overrides:
+      follow-redirects:
+        1.15.2:
+          use: 1.15.2-sp1
